@@ -104,7 +104,7 @@
                 android:textSize="13.0sp" />
             <!-- 温度信息 -->
             <TextView
-                android:id="@+id/temperatur_now"
+                android:id="@+id/temperature_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/temperatur_now"
+                android:layout_below="@id/temperature_now"
                 android:layout_marginLeft="15.0dp"
                 android:lines="1"
                 android:ellipsize="end"
@@ -215,13 +215,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="6dp"
                     android:layout_toRightOf="@id/weather_img"
                     android:lines="1"
                     android:ellipsize="end"
                     android:text="今天 星期三"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
                 <!-- 温度范围 -->
                 <TextView
                     android:id="@+id/temperature"
@@ -234,7 +234,7 @@
                     android:ellipsize="end"
                     android:text="12℃~24℃"
                     android:textColor="@android:color/white"
-                    android:textSize="30.0sp"/>
+                    android:textSize="22sp"/>
                 <!-- 天气状况 -->
                 <TextView
                     android:id="@+id/climate"
@@ -247,7 +247,7 @@
                     android:ellipsize="end"
                     android:text="晴空万里"
                     android:textColor="@android:color/white"
-                    android:textSize="20.0sp"/>
+                    android:textSize="22sp"/>
                 <!-- 风力信息 -->
                 <TextView
                     android:id="@+id/wind"
