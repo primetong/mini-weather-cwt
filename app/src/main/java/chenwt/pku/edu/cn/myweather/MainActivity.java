@@ -1,5 +1,6 @@
 package chenwt.pku.edu.cn.myweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
@@ -22,17 +23,23 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import chenwt.pku.edu.cn.bean.TodayWeather;
 import chenwt.pku.edu.cn.util.NetUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private SharedPreferences sp; //实例化SharedPreference对象，用于存取天气数据
+
     private static final int UPDATE_TODAY_WEATHER = 1;
 
     private TextView cityTv, timeTv, temperNowTv,humidityTv, weekTv, pmDataTv, pmQualityTv,
             temperatureTv, climateTv, windTv, city_name_Tv;
     private ImageView weatherImg, pmImg;
+
+    Calendar cDate = Calendar.getInstance();        //获取月份加入日期数据中显示
+    String mMonth = String.valueOf(cDate.get(Calendar.MONTH) + 1);
 
     private Handler mHandler = new Handler(){
         public void handleMessage(Message msg){
@@ -51,23 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);
 
-        //↓调用检测网络连接状态方法
-        if(NetUtil.getNetworkState(this) != NetUtil.NETWORK_NONE){
-            Log.d("myWeather", "网络Online！");
-            if(NetUtil.getNetworkState(this) == NetUtil.NETWORK_MOBILE)
-                Toast.makeText(MainActivity.this, "移动网络在线", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(MainActivity.this, "WiFi在线" ,Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Log.d("myWeather", "网络Offline！");
-            Toast.makeText(MainActivity.this, "连不上网络哟~请检查网络设置~" ,Toast.LENGTH_LONG).show();
-        }
+        sp = getSharedPreferences("config", MODE_PRIVATE);  //获得sp实例对象
+
+        //↓传null仅检测网络连接状态
+        testOnlineAndGet(null);
 
         initview();
 
         ImageView mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
         mUpdateBtn.setOnClickListener(this);
+
+        ImageView mCitySelect = (ImageView) findViewById(R.id.title_city_manger);
+        mCitySelect.setOnClickListener(this);
 
         //onCreate方法的小尾巴
     }
@@ -75,25 +77,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.title_update_btn){
-            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-            String cityCode = sharedPreferences.getString("main_city_code", "101010100");
+            String cityCode = sp.getString("MAIN_CITY_CODE", "101010100");
             Log.d("myWeather", cityCode);
+            testOnlineAndGet(cityCode);
+        }
 
-            if(NetUtil.getNetworkState(this) != NetUtil.NETWORK_NONE){
-                Log.d("myWeather", "网络Online！");
-                if(NetUtil.getNetworkState(this) == NetUtil.NETWORK_MOBILE) {
-                    Toast.makeText(MainActivity.this, "正在使用移动网络为您更新数据", Toast.LENGTH_SHORT).show();
-                    queryWeatherCode(cityCode);
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "正在使用WiFi为您更新数据", Toast.LENGTH_SHORT).show();
-                    queryWeatherCode(cityCode);
-                }
-            }
-            else{
-                Log.d("myWeather", "网络Offline！");
-                Toast.makeText(MainActivity.this, "连不上网络哟~请检查网络设置~" ,Toast.LENGTH_LONG).show();
-            }
+        if (v.getId() == R.id.title_city_manger){
+            Intent i = new Intent(this, SelectCity.class);
+            startActivityForResult(i, 1);
         }
     }
 
@@ -116,17 +107,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         weatherImg = (ImageView) findViewById(R.id.weather_img);
         pmImg = (ImageView) findViewById(R.id.pm2_5_img);
 
-        city_name_Tv.setText("N/A");
-        cityTv.setText("N/A");
-        timeTv.setText("N/A");
-        temperNowTv.setText("N/A");
-        humidityTv.setText("N/A");
-        pmDataTv.setText("N/A");
-        pmQualityTv.setText("N/A");
-        weekTv.setText("N/A");
-        temperatureTv.setText("N/A");
-        climateTv.setText("N/A");
-        windTv.setText("N/A");
+        String cityname = sp.getString("CITY", "N/A");
+        String updatetime = sp.getString("UPDATETIME", "N/A");
+        String tempernow = sp.getString("WENDU", "N/A");
+        String humidity = sp.getString("SHIDU", "N/A");
+        String pmdata = sp.getString("PM25", "N/A");
+        String pmquality = sp.getString("QUALITY", "N/A");
+        String week = sp.getString("DATE", "N/A");
+        String temperaturehigh = sp.getString("HIGH", "N/A");
+        String temperaturelow = sp.getString("LOW", "N/A");
+        String climate = sp.getString("TYPE", "N/A");
+        String wind = sp.getString("FENGLI", "N/A");
+        Log.d("myWeather", "从SP中读到的天气数据：" + cityname + ", " + updatetime + ", "  + tempernow + ", "  +
+                humidity + ", "  + pmdata + ", "  + pmquality + ", "  + week + ", "  + temperaturehigh + ", "  +
+                temperaturelow + ", "  + climate + ", "  + wind);
+
+        city_name_Tv.setText(cityname + "天气");
+        cityTv.setText(cityname);
+        timeTv.setText(updatetime + "发布");
+        temperNowTv.setText("温度：" + tempernow + "℃");
+        humidityTv.setText("湿度：" + humidity);
+        pmDataTv.setText(pmdata);
+        pmQualityTv.setText(pmquality);
+        weekTv.setText(mMonth + "月" + week);
+        temperatureTv.setText(temperaturehigh + "~" + temperaturelow);
+        climateTv.setText(climate);
+        windTv.setText("风力：" + wind);
+    }
+
+    /**
+     * 用于接收SelectCity Activity返回的数据，重写的Activity的onActivityResult方法↓
+     * @param requestCode, resultCode, Intent data
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent iNewCD){
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            String newCityCode = iNewCD.getStringExtra("cityCode");
+            Log.d("myWeather", "选择的新城市代码为" + newCityCode);
+            testOnlineAndGet(newCityCode);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("MAIN_CITY_CODE", newCityCode);
+            editor.commit();
+            //
+//            String citycodetest = sp.getString("MAIN_CITY_CODE", "hahahaBUG");
+//            Toast.makeText(MainActivity.this, citycodetest, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 调用检测网络连接状态方法↓
+     * @param cityCode
+     */
+    private void testOnlineAndGet(String cityCode){
+        if(NetUtil.getNetworkState(this) != NetUtil.NETWORK_NONE){
+            Log.d("myWeather", "网络Online！");
+            if(NetUtil.getNetworkState(this) == NetUtil.NETWORK_MOBILE) {
+                Toast.makeText(MainActivity.this, "正在使用移动网络为您更新数据", Toast.LENGTH_SHORT).show();
+                if (cityCode != null) queryWeatherCode(cityCode);
+            }
+            else {
+                Toast.makeText(MainActivity.this, "正在使用WiFi为您更新数据", Toast.LENGTH_SHORT).show();
+                if (cityCode != null) queryWeatherCode(cityCode);
+            }
+        }
+        else{
+            Log.d("myWeather", "网络Offline！");
+            Toast.makeText(MainActivity.this, "连不上网络哟~请检查网络设置~" ,Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -246,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 typeCount++;
                             }
                         }
+                        todayWeather.saveAllData(this);
                         break;
                     case XmlPullParser.END_TAG:     //判断当前读到的事件类型是否为标签元素结束事件
                         break;
@@ -275,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         humidityTv.setText("湿度：" + todayWeather.getShidu());
         pmDataTv.setText(todayWeather.getPm25());
         pmQualityTv.setText(todayWeather.getQuality());
-        weekTv.setText(todayWeather.getDate());
+        weekTv.setText(mMonth + "月" + todayWeather.getDate());
         temperatureTv.setText(todayWeather.getHigh() + "~" + todayWeather.getLow());
         climateTv.setText(weatherType);
         windTv.setText("风力：" + todayWeather.getFengli());

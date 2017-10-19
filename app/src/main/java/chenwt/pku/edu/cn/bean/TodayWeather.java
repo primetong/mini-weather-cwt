@@ -1,12 +1,17 @@
 package chenwt.pku.edu.cn.bean;
 
-import java.lang.ref.SoftReference;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 /**
  * Created by Witt on 2017/10/12.
  */
 
 public class TodayWeather {
+
+    private SharedPreferences sp; //实例化SharedPreference对象，用于存储联网解析之后获取的所有数据
+
     private String city, updatetime, wendu, shidu, pm25, quality, fengxiang,
             fengli, date, high, low, type;
 
@@ -105,6 +110,24 @@ public class TodayWeather {
 
     public void setType(String type){
         this.type = type;
+    }
+    //用于存储联网解析之后获取的所有数据↓
+    public void saveAllData(Activity activity){
+        sp = activity.getSharedPreferences("config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("CITY", city);
+        editor.putString("UPDATETIME", updatetime);
+        editor.putString("WENDU", wendu);
+        editor.putString("SHIDU", shidu);
+        editor.putString("PM25", pm25);
+        editor.putString("QUALITY", quality);
+        //editor.putString("FENGXIANG", fengxiang);
+        editor.putString("FENGLI", fengli);
+        editor.putString("DATE", date);
+        editor.putString("HIGH", high);
+        editor.putString("LOW", low);
+        editor.putString("TYPE", type);
+        editor.commit();
     }
     //通过工具提供的功能生成toString方法。
     @Override
