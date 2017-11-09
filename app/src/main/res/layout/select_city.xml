@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/selectcity_title"
         android:layout_width="match_parent"
         android:layout_height="45.0dp"
         android:background="@color/weather_rose">
@@ -32,5 +33,12 @@
             android:background="#A71717" />
 
     </RelativeLayout>
+
+    <ListView
+        android:id="@+id/selectcity_listview"
+        android:layout_below="@id/selectcity_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 
 </RelativeLayout>

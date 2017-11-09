@@ -18,7 +18,7 @@ import chenwt.pku.edu.cn.db.CityDB;
  * Created by Administrator on 2017/11/1.
  */
 
-public class MyApplication extends Application{
+public class MyApplication extends Application{ //系统组件之一，生命周期即整个程序的生命周期，onCreate方法在Activity的onCreate之前
     private static final String TAG = "MyAPP";
 
     private static MyApplication mApplication;
@@ -32,24 +32,24 @@ public class MyApplication extends Application{
         Log.d(TAG, "MyAppplication->Oncreate");
 
         mApplication = this;
-        mCityDB = openCityDB();
-        initCityList();
+        mCityDB = openCityDB();     //打开数据库
+        initCityList();     //初始化城市列表
     }
 
     private void initCityList() {
         mCityList = new ArrayList<City>();
-        new Thread(new Runnable() {
+        new Thread(new Runnable() {     //读取数据库属于耗时操作，需要在非主线程中完成
             @Override
             public void run() {
-                prepareCityList();
+                prepareCityList();  //准备城市列表
             }
         }).start();
     }
 
     private boolean prepareCityList() {
-        mCityList = mCityDB.getAllCity();
+        mCityList = mCityDB.getAllCity();   //调用CityDB类，获取城市列表所有信息
         int i = 0;
-        for (City city : mCityList){
+        for (City city : mCityList){    //遍历城市列表打印看看是否获取到数据库中的城市名字和代码
             i++;
             String cityName = city.getCity();
             String cityCode = city.getNumber();
@@ -67,7 +67,7 @@ public class MyApplication extends Application{
         return mApplication;
     }
 
-    private CityDB openCityDB(){
+    private CityDB openCityDB(){    //打开指定路径下的数据库，如果路径不存在则从assets中读取数据库并写入指定路径
         String path = "/data"
                 + Environment.getDataDirectory().getAbsolutePath()
                 + File.separator + getPackageName()

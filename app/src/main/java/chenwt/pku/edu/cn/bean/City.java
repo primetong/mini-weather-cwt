@@ -4,7 +4,7 @@ package chenwt.pku.edu.cn.bean;
  * Created by Administrator on 2017/11/1.
  */
 
-public class City {
+public class City {     //公共类用于保存共有城市列表数据，存入（setXXX）和读取（getXXX）都通过面向对象的方法来处理
     private String province;
     private String city;
     private String number;

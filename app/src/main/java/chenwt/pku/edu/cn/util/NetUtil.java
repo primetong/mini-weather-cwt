@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
  * Created by Witt on 2017/10/11.
  */
 
-public class NetUtil {
+public class NetUtil {      //该类判断网络是否可用，并且可以判断是在移动网络下还是WiFi网络下
     public static final int NETWORK_NONE = 0;
     public static final int NETWORK_WIFI = 1;
     public static final int NETWORK_MOBILE = 2;

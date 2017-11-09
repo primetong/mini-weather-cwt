@@ -3,17 +3,19 @@ package chenwt.pku.edu.cn.bean;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Witt on 2017/10/12.
  */
 
-public class TodayWeather {
+public class TodayWeather {     //公共类用于保存共有今日天气数据，存入（setXXX）和读取（getXXX）都通过面向对象的方法来处理
 
     private SharedPreferences sp; //实例化SharedPreference对象，用于存储联网解析之后获取的所有数据
 
-    private String city, updatetime, wendu, shidu, pm25, quality, fengxiang,
+    private String city, updatetime, wendu, shidu, fengxiang,
             fengli, date, high, low, type;
+    private String pm25 = "该地区", quality = "没有PM2.5信息";
 
     //通过工具提供的功能生成get方法。
     public String getCity(){
