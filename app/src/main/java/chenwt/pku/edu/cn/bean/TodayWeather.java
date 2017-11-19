@@ -15,7 +15,7 @@ public class TodayWeather {     //公共类用于保存共有今日天气数据�
 
     private String city, updatetime, wendu, shidu, fengxiang,
             fengli, date, high, low, type;
-    private String pm25 = "该地区", quality = "没有PM2.5信息";
+    private String pm25 = "该地区", quality = "没有PM2.5信息"; //由于部分地区不返回PM2.5数值与质量，返回的是null值，需要设初值防止空指针异常
 
     //通过工具提供的功能生成get方法。
     public String getCity(){

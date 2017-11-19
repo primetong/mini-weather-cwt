@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView cityTv, timeTv, temperNowTv,humidityTv, weekTv, pmDataTv, pmQualityTv,
             temperatureTv, climateTv, windTv, city_name_Tv;
-    private ImageView weatherImg, pmImg;
+    private ImageView mUpdateBtn, weatherImg, pmImg, mCitySelect;
+    private ProgressBar mUpdatePgb;
 
     Calendar cDate = Calendar.getInstance();        //获取月份加入日期数据中显示
     String mMonth = String.valueOf(cDate.get(Calendar.MONTH) + 1);
@@ -65,11 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initview();     //初始化控件显示
 
-        ImageView mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn); //绑定刷新的图片控件并设置监听事件
-        mUpdateBtn.setOnClickListener(this);
-
-        ImageView mCitySelect = (ImageView) findViewById(R.id.title_city_manger);   //绑定显示城市列表的图片控件并设置监听事件
-        mCitySelect.setOnClickListener(this);
+        mUpdateBtn.setOnClickListener(this);     //为刷新的图片控件设置监听事件
+        mCitySelect.setOnClickListener(this);   //为显示城市列表的图片控件设置监听事件
 
         //onCreate方法的小尾巴
     }
@@ -77,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.title_update_btn){    //如果点击到刷新，取出保存的城市代码（默认北京）去获取网络的天气信息
+            mUpdatePgb.setVisibility(View.VISIBLE);
+            v.setVisibility(View.INVISIBLE);
             String cityCode = sp.getString("MAIN_CITY_CODE", "101010100");
             Log.d("myWeather", cityCode);
             testOnlineAndGet(cityCode);
@@ -93,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * *@param void
      */
     void initview(){
+        mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);   //绑定刷新的图片控件
+        mCitySelect = (ImageView) findViewById(R.id.title_city_manger); //绑定显示城市列表的图片控件
+        mUpdatePgb = (ProgressBar) findViewById(R.id.title_update_progress);    //绑定更新天气才显示的ProgressBar控件
+
         city_name_Tv = (TextView) findViewById(R.id.title_city_name);
         cityTv = (TextView) findViewById(R.id.city);
         timeTv = (TextView) findViewById(R.id.time);
@@ -414,6 +419,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pmImg.setImageResource(R.drawable.biz_plugin_weather_greater_300);
         else
             pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
+
+        mUpdateBtn.setVisibility(View.VISIBLE);
+        mUpdatePgb.setVisibility(View.GONE);
 
         Toast.makeText(MainActivity.this, "天气已更新成功！", Toast.LENGTH_SHORT).show();
     }

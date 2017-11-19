@@ -1,13 +1,19 @@
 package chenwt.pku.edu.cn.myweather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +22,17 @@ import chenwt.pku.edu.cn.app.MyApplication;
 import chenwt.pku.edu.cn.bean.City;
 
 public class SelectCity extends AppCompatActivity implements View.OnClickListener{
+    private TextView selectTitleTv, mDialogLetterTv;
+    private ClearEditText mClearEditText;
+    private SideBar mSideBar;
+    private SortAdapter mAdapter;
+    private ListView mCityListLV;
+
+    private List<City> mCityList;
+
+    private List<City> filterDataList = new ArrayList<City>();
+
+    private SharedPreferences sp; //实例化SharedPreference对象，用于读取更新SelectCityActivity的“当前城市：”标题
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +61,80 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
      * *@param void
      */
     private void initView() {
+        selectTitleTv = (TextView) findViewById(R.id.title_name);
+        sp = getSharedPreferences("config", MODE_PRIVATE);  //获得sp实例对象
+        String selectedcityname = sp.getString("CITY", "N/A");
+        selectTitleTv.setText("当前城市：" + selectedcityname);
+
         ImageView mBackBtn = (ImageView) findViewById(R.id.title_back); //绑定返回的图片控件并设置监听事件
         mBackBtn.setOnClickListener(this);
 
+        mClearEditText = (ClearEditText) findViewById(R.id.search_city);
+        //根据输入框输入值的改变来过滤搜索
+        mClearEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //当输入框里面的值为空，更新为原来的列表，否则显示为过滤数据列表
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mSideBar = (SideBar) findViewById(R.id.listview_sidebar);
+        mDialogLetterTv = (TextView) findViewById(R.id.listview_dialog);
+        mSideBar.setTextView(mDialogLetterTv);
+        //设置右侧触摸监听
+        mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = mAdapter.getPositionForSection(s.charAt(0));
+                if (position != -1){
+                    mCityListLV.setSelection(position);
+                }
+            }
+        });
+
         MyApplication myApplication = (MyApplication) getApplication();
-        final List<City> mCityList = myApplication.getCityList();   //获取到在MyApplication中从数据库取得的城市列表
-        ArrayList<String> mCityArrayList = new ArrayList<>();   //不new会指向空
-        for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
-            String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
-            mCityArrayList.add(cityName);
+        mCityList = myApplication.getCityList();   //获取到在MyApplication中从数据库取得的城市列表
+//        ArrayList<String> mCitySourceList = new ArrayList<>();   //不new会指向空
+//        for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
+////            String noNumber = Integer.toString(i + 1);
+//            String cityCode = mCityList.get(i).getNumber();
+//            String provinceName = mCityList.get(i).getProvince();
+//            String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
+////            mCityArrayList.add("NO." + noNumber + ":" + cityCode + " - " + provinceName + " - " + cityName);
+//            mCitySourceList.add(provinceName + " - " + cityName + "(" + cityCode + ")");
+//        }
+        //filterDataList = new ArrayList<City>();
+        for (City city : mCityList){
+            filterDataList.add(city);
         }
-        ListView mCityListLV = (ListView) findViewById(R.id.selectcity_listview);   //绑定ListView控件，绑定数据与ListView的适配器
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SelectCity.this, android.R.layout.simple_list_item_1, mCityArrayList);
-        mCityListLV.setAdapter(adapter);
+        mCityListLV = (ListView) findViewById(R.id.selectcity_listview);   //绑定ListView控件，绑定数据与ListView的适配器
+        mAdapter = new SortAdapter(SelectCity.this, mCityList);
+        mCityListLV.setAdapter(mAdapter);
+
+//        ArrayList<String> mCityArrayList = new ArrayList<>();   //不new会指向空
+//        for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
+////            String noNumber = Integer.toString(i + 1);
+//            String cityCode = mCityList.get(i).getNumber();
+//            String provinceName = mCityList.get(i).getProvince();
+//            String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
+////            mCityArrayList.add("NO." + noNumber + ":" + cityCode + " - " + provinceName + " - " + cityName);
+//            mCityArrayList.add(provinceName + " - " + cityName + "(" + cityCode + ")");
+//        }
+//        mCityListLV = (ListView) findViewById(R.id.selectcity_listview);   //绑定ListView控件，绑定数据与ListView的适配器
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SelectCity.this, android.R.layout.simple_list_item_1, mCityArrayList);
+//        mCityListLV.setAdapter(adapter);
         //添加ListView项的点击事件并绑定
         mCityListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,5 +145,29 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
                 finish();
             }
         });
+    }
+
+    private void filterData(String filterStr) {
+        Log.d("myFilter", filterStr);
+        //filterDataList = new ArrayList<City>();
+
+        if (TextUtils.isEmpty(filterStr)){
+//            for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
+//                String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
+//                filterDateList.add(cityName);
+//            }
+            for (City city : mCityList){
+                filterDataList.add(city);
+            }
+        }
+        else {
+            filterDataList.clear();
+            for (City city : mCityList){
+                if (city.getCity().indexOf(filterStr.toString()) != -1){
+                    filterDataList.add(city);
+                }
+            }
+        }
+        mAdapter.updateListView(filterDataList);
     }
 }

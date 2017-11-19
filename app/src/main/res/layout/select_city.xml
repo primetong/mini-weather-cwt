@@ -31,14 +31,64 @@
             android:foregroundGravity="center"
             android:layout_toRightOf="@id/title_back"
             android:background="#A71717" />
-
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/selectcity_listview"
+    
+    <chenwt.pku.edu.cn.myweather.ClearEditText
+        android:id="@+id/search_city"
         android:layout_below="@id/selectcity_title"
         android:layout_width="match_parent"
+        android:layout_height="42.0dp"
+        android:layout_margin="10.0dp"
+        android:drawablePadding="8.0dp"
+        android:paddingBottom="8.0dp"
+        android:paddingTop="8.0dp"
+        android:paddingLeft="10.0dp"
+        android:background="@drawable/contact_search_box_edittext_keyword_background"
+        android:drawableLeft="@drawable/magnifying_glass"
+        android:drawableRight="@drawable/select_city_clear"
+        android:lines="1"
+        android:ellipsize="end"
+        android:hint="搜索全国城市"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray_cc"
+        android:textSize="18.0sp"
+        />
+
+    <!--<ListView-->
+        <!--android:id="@+id/selectcity_listview"-->
+        <!--android:layout_below="@id/search_city"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</ListView>-->
+
+    <FrameLayout
+        android:layout_below="@id/search_city"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ListView>
+
+        <ListView
+            android:id="@+id/selectcity_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:divider="@null" />
+
+        <TextView
+            android:id="@+id/listview_dialog"
+            android:layout_width="80.0dp"
+            android:layout_height="80.0dp"
+            android:layout_gravity="center"
+            android:background="@drawable/show_head__letter_toast_bg"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="30.0dp"
+            android:visibility="invisible" />
+
+        <chenwt.pku.edu.cn.myweather.SideBar
+            android:id="@+id/listview_sidebar"
+            android:layout_width="30.0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center"/>
+    </FrameLayout>
 
 </RelativeLayout>
