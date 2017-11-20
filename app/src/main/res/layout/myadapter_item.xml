@@ -9,12 +9,13 @@
         android:id="@+id/myadapter_catalog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E0E0E0"
-        android:textColor="#454545"
+        android:background="@color/gray"
+        android:textColor="@color/black"
         android:layout_weight="1.0"
         android:paddingLeft="5dip"
         android:paddingTop="5dip"
         android:paddingBottom="5dip"
+        android:textSize="15.0sp"
         android:text="A"/>
 
     <TextView
@@ -27,6 +28,7 @@
         android:layout_marginLeft="5dip"
         android:paddingTop="10dip"
         android:paddingBottom="10dip"
+        android:textColor="@color/white"
         android:text="ahahaha"/>
 
 </LinearLayout>

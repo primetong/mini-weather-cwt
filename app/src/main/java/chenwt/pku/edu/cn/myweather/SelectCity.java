@@ -106,21 +106,12 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
 
         MyApplication myApplication = (MyApplication) getApplication();
         mCityList = myApplication.getCityList();   //获取到在MyApplication中从数据库取得的城市列表
-//        ArrayList<String> mCitySourceList = new ArrayList<>();   //不new会指向空
-//        for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
-////            String noNumber = Integer.toString(i + 1);
-//            String cityCode = mCityList.get(i).getNumber();
-//            String provinceName = mCityList.get(i).getProvince();
-//            String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
-////            mCityArrayList.add("NO." + noNumber + ":" + cityCode + " - " + provinceName + " - " + cityName);
-//            mCitySourceList.add(provinceName + " - " + cityName + "(" + cityCode + ")");
-//        }
-        //filterDataList = new ArrayList<City>();
+        //如果要更改列表每一项的显示内容（省份城市或是什么的），到SortAdapter类中找到对应的TextView修改
         for (City city : mCityList){
             filterDataList.add(city);
         }
         mCityListLV = (ListView) findViewById(R.id.selectcity_listview);   //绑定ListView控件，绑定数据与ListView的适配器
-        mAdapter = new SortAdapter(SelectCity.this, mCityList);
+        mAdapter = new SortAdapter(SelectCity.this, filterDataList);
         mCityListLV.setAdapter(mAdapter);
 
 //        ArrayList<String> mCityArrayList = new ArrayList<>();   //不new会指向空
@@ -135,12 +126,13 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
 //        mCityListLV = (ListView) findViewById(R.id.selectcity_listview);   //绑定ListView控件，绑定数据与ListView的适配器
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(SelectCity.this, android.R.layout.simple_list_item_1, mCityArrayList);
 //        mCityListLV.setAdapter(adapter);
+
         //添加ListView项的点击事件并绑定
         mCityListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent iNewCD = new Intent();
-                iNewCD.putExtra("cityCode", mCityList.get(position).getNumber());   //通过点击事件的位置判断用户点击哪个城市，并将城市代码存入意图对象
+                iNewCD.putExtra("cityCode", filterDataList.get(position).getNumber());   //通过点击事件的位置判断用户点击哪个城市，并将城市代码存入意图对象
                 setResult(RESULT_OK, iNewCD);
                 finish();
             }
@@ -149,13 +141,11 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
 
     private void filterData(String filterStr) {
         Log.d("myFilter", filterStr);
-        //filterDataList = new ArrayList<City>();
+        String upperFilterStr = filterStr.toUpperCase();
 
+//        Log.d("myFilter", String.valueOf(TextUtils.isEmpty(filterStr)));
         if (TextUtils.isEmpty(filterStr)){
-//            for (int i=0; i<mCityList.size(); i++){     //ArrayList使用索引循环来遍历效率最高，此外还有for-each方法和迭代器方法
-//                String cityName = mCityList.get(i).getCity();   //获取数据库中的城市名字列表
-//                filterDateList.add(cityName);
-//            }
+            filterDataList.clear();
             for (City city : mCityList){
                 filterDataList.add(city);
             }
@@ -163,7 +153,10 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
         else {
             filterDataList.clear();
             for (City city : mCityList){
-                if (city.getCity().indexOf(filterStr.toString()) != -1){
+                // 匹配中文城市名、全拼首字母和第一个字拼音首字母
+                if (city.getCity().indexOf(upperFilterStr) > -1
+                        || city.getFirstPY().indexOf(upperFilterStr) > -1
+                        || city.getAllFristPY().indexOf(upperFilterStr) > -1){
                     filterDataList.add(city);
                 }
             }

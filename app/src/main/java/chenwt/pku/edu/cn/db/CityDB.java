@@ -24,7 +24,8 @@ public class CityDB {       //这个类用于获取数据库中的城市列表�
 
     public List<City> getAllCity() {    //获取数据库中的所有城市信息，并返回一张列表
         List<City> list = new ArrayList<City>();
-        Cursor c = db.rawQuery("SELECT * from " + CITY_TABLE_NAME, null);   //用游标循环遍历取数据库中的数据
+        //用游标循环遍历取数据库中的数据，这里加上order by firstpy才能让List按第一个字拼音的首字母排序，否则乱序
+        Cursor c = db.rawQuery("SELECT * from " + CITY_TABLE_NAME + " order by firstpy", null);
         while (c.moveToNext()) {
             String province = c.getString(c.getColumnIndex("province"));
             String city = c.getString(c.getColumnIndex("city"));

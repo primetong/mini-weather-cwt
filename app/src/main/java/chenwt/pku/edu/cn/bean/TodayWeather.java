@@ -13,8 +13,9 @@ public class TodayWeather {     //公共类用于保存共有今日天气数据�
 
     private SharedPreferences sp; //实例化SharedPreference对象，用于存储联网解析之后获取的所有数据
 
-    private String city, updatetime, wendu, shidu, fengxiang,
-            fengli, date, high, low, type;
+    private String city = "无", updatetime = "未", wendu = "无信息", shidu = "无信息",
+            fengxiang = "无风向信息", fengli = "无信息", date = "无日期信息",
+            high = "无", low = "无", type = "该地区没有天气信息";
     private String pm25 = "该地区", quality = "没有PM2.5信息"; //由于部分地区不返回PM2.5数值与质量，返回的是null值，需要设初值防止空指针异常
 
     //通过工具提供的功能生成get方法。

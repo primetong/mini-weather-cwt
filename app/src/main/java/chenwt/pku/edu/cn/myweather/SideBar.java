@@ -54,14 +54,14 @@ public class SideBar extends View {
         int singleHeight = height / b.length;// 获取每一个字母的高度
 
         for (int i = 0; i < b.length; i++) {
-            paint.setColor(Color.rgb(33, 65, 98));
-            // paint.setColor(Color.WHITE);
+            paint.setColor(Color.rgb(255, 250, 205));  //右侧索引没被触摸时显示的颜色（柠檬绸色）
+//            paint.setColor(Color.WHITE);
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
             paint.setTextSize(20);
             // 选中的状态
             if (i == choose) {
-                paint.setColor(Color.parseColor("#3399ff"));
+                paint.setColor(Color.parseColor("#DAA520"));    //右侧索引被选中某个字母的高亮颜色（金麒麟色）
                 paint.setFakeBoldText(true);
             }
             // x坐标等于中间-字符串宽度的一半.

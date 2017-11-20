@@ -69,7 +69,9 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
 
-        viewHolder.tvTitle.setText(this.list.get(position).getCity());
+        //如果要更改列表每一项的显示内容（省份城市或是什么的），在这里修改
+        viewHolder.tvTitle.setText("    " + this.list.get(position).getCity() + "    （省份：" +
+                this.list.get(position).getProvince() + "）");
 
         return view;
 

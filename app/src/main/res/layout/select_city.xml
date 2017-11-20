@@ -48,7 +48,7 @@
         android:drawableRight="@drawable/select_city_clear"
         android:lines="1"
         android:ellipsize="end"
-        android:hint="搜索全国城市"
+        android:hint="搜索全国城市(中文/拼音首字母)"
         android:textColor="@color/black"
         android:textColorHint="@color/gray_cc"
         android:textSize="18.0sp"
@@ -75,8 +75,8 @@
 
         <TextView
             android:id="@+id/listview_dialog"
-            android:layout_width="80.0dp"
-            android:layout_height="80.0dp"
+            android:layout_width="66.0dp"
+            android:layout_height="56.0dp"
             android:layout_gravity="center"
             android:background="@drawable/show_head__letter_toast_bg"
             android:gravity="center"
