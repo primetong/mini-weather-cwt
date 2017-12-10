@@ -48,15 +48,15 @@ public class MyApplication extends Application{ //系统组件之一，生命周
 
     private boolean prepareCityList() {
         mCityList = mCityDB.getAllCity();   //调用CityDB类，获取城市列表所有信息
-        int i = 0;
-        for (City city : mCityList){    //遍历城市列表打印看看是否获取到数据库中的城市名字和代码
-            i++;
-            String cityName = city.getCity();
-            String cityCode = city.getNumber();
-            String cityFirstPY = city.getFirstPY();
-            Log.d(TAG, cityCode + ":" + cityName + ":" + cityFirstPY);
-        }
-        Log.d(TAG,"i=" + i);
+//        int i = 0;
+//        for (City city : mCityList){    //遍历城市列表打印看看是否获取到数据库中的城市名字和代码
+//            i++;
+//            String cityName = city.getCity();
+//            String cityCode = city.getNumber();
+//            String cityFirstPY = city.getFirstPY();
+//            Log.d(TAG, cityCode + ":" + cityName + ":" + cityFirstPY);
+//        }
+//        Log.d(TAG,"i=" + i);
         return true;
     }
 

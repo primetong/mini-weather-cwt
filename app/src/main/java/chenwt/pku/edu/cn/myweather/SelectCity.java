@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +140,9 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
         });
     }
 
+    /**
+     * 根据ClearEditText中的搜索关键字过滤显示的列表，当输入框里面的值为空，更新为原来的列表，否则显示为过滤数据列表
+     */
     private void filterData(String filterStr) {
         Log.d("myFilter", filterStr);
         String upperFilterStr = filterStr.toUpperCase();
@@ -162,5 +166,9 @@ public class SelectCity extends AppCompatActivity implements View.OnClickListene
             }
         }
         mAdapter.updateListView(filterDataList);
+        if (filterDataList.isEmpty()){  //如果关键字找到的列表为空（即找不到对应项目）抖动ClearEditText并给出提示信息
+            mClearEditText.setStartShakeAnimation();
+            Toast.makeText(SelectCity.this, "找不到对应城市哟！请检查搜索词！" + "\n" + "支持中文/拼音首字母的模糊搜索~~~", Toast.LENGTH_SHORT).show();
+        }
     }
 }

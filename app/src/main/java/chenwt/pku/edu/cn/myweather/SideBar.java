@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.TextView;
 /**
  * Created by Administrator on 2017/11/19.
+ * SideBar类就是ListView右侧的字母索引View，我们需要使用setTextView(TextView mTextDialog)来设置用来显示当前按下的字母的TextView,
+ * 以及使用setOnTouchingLetterChangedListener方法来设置回调接口，在回调方法onTouchingLetterChanged(String s)中来处理不同的操作。
  */
 
 public class SideBar extends View {
     // 触摸事件
     private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
-    // 26个字母
+    // 26个字母 + #号
     public static String[] b = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#" };
@@ -126,7 +128,7 @@ public class SideBar extends View {
     /**
      * 接口
      *
-     * @author coder
+     * @author witt
      *
      */
     public interface OnTouchingLetterChangedListener {

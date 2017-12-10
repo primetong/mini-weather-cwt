@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 /**
  * Created by Witt on 2017/11/18
+ * 自定义的一个在右侧有删除图片的EditText
  */
 
 public class ClearEditText extends EditText implements OnFocusChangeListener, TextWatcher {

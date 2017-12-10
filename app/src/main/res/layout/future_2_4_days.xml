@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/future_two_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/biz_plugin_weather_qing"/>
+
+        <TextView
+            android:id="@+id/future_two_date"
+            android:layout_below="@id/future_two_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="后日星期几"
+            android:textSize="14.2sp"/>
+
+        <TextView
+            android:id="@+id/future_two_high"
+            android:layout_below="@id/future_two_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="高温 42℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_two_wave"
+            android:layout_below="@id/future_two_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="~"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/future_two_low"
+            android:layout_below="@id/future_two_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="低温 -24℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_two_type"
+            android:layout_below="@id/future_two_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="晴"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/future_three_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/biz_plugin_weather_qing"/>
+
+        <TextView
+            android:id="@+id/future_three_date"
+            android:layout_below="@id/future_three_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="后后星期几"
+            android:textSize="14.2sp"/>
+
+        <TextView
+            android:id="@+id/future_three_high"
+            android:layout_below="@id/future_three_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="高温 42℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_three_wave"
+            android:layout_below="@id/future_three_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="~"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/future_three_low"
+            android:layout_below="@id/future_three_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="低温 -24℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_three_type"
+            android:layout_below="@id/future_three_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="晴"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/future_four_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/biz_plugin_weather_qing"/>
+
+        <TextView
+            android:id="@+id/future_four_date"
+            android:layout_below="@id/future_four_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="后仨星期几"
+            android:textSize="14.2sp"/>
+
+        <TextView
+            android:id="@+id/future_four_high"
+            android:layout_below="@id/future_four_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="高温 42℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_four_wave"
+            android:layout_below="@id/future_four_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="~"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/future_four_low"
+            android:layout_below="@id/future_four_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="低温 -24℃"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/future_four_type"
+            android:layout_below="@id/future_four_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="晴"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+</LinearLayout>

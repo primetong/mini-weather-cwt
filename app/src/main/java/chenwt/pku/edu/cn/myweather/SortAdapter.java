@@ -13,6 +13,16 @@ import chenwt.pku.edu.cn.bean.City;
 
 /**
  * Created by Administrator on 2017/11/19.
+ * 数据的适配器类，该类需要实现SectionIndexer接口，该接口是用来控制ListView分组的，该接口有三个方法：
+ * getSectionForPosition(int position)，getPositionForSection(int section)，getSections()，只需要自行实现前面两个方法
+ * ①getSectionForPosition(int position)是根据ListView的position来获取该位置上面的name的首字母char的ascii值，
+ *     例如： 如果该position上面的name是阿妹，首字母就是A，那么此方法返回的就是'A'字母的ascii值，也就是65， 'B'是66，依次类推
+ * ②getPositionForSection(int section)就是根据首字母的ascii值来获取在该ListView中第一次出现该首字母的位置，
+ *     例如：从上面的效果图1中，如果section是66 ，也就是‘B’的ascii值，那么该方法返回的position就是2
+ * 然后就是getView()方法，//如果要更改列表每一项的显示内容（省份城市或是什么的），在getView()里修改
+ * 首先我们根据ListView的position调用getSectionForPosition(int position)来获取该位置上面name的首字母的ascii值,
+ * 然后根据这个ascii值调用getPositionForSection(int section)来获取第一次出现该首字母的position，
+ * 如果ListView的position 等于 根据这个ascii值调用getPositionForSection(int section)来获取第一次出现该首字母的position，则显示分类字母 否则隐藏
  */
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer{
@@ -50,9 +60,9 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
         final City mContent = list.get(position);
         if (view == null) {
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.myadapter_item, null);
-            viewHolder.tvTitle = (TextView) view.findViewById(R.id.myadapter_title);
-            viewHolder.tvLetter = (TextView) view.findViewById(R.id.myadapter_catalog);
+            view = LayoutInflater.from(mContext).inflate(R.layout.myadapter_item, null);    //绑定ListView的样式
+            viewHolder.tvTitle = (TextView) view.findViewById(R.id.myadapter_title);        //绑定ListView中普通项目的样式
+            viewHolder.tvLetter = (TextView) view.findViewById(R.id.myadapter_catalog);     //绑定ListView中目录（索引）的样式
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
